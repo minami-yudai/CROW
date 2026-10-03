@@ -1,0 +1,6 @@
+{
+  "name": "MailExtract AI - メール宛先・件名 自動抽出ツール",
+  "description": "Gemini APIを活用し、メール本文から宛先名と最適な件名を高精度に自動抽出・提案するツール",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
