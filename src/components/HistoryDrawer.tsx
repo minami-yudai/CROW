@@ -44,7 +44,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
             <div>
               <h3 className="text-sm font-bold text-slate-800">抽出履歴</h3>
               <p className="text-[11px] text-slate-500">
-                最近解析したメール（最大20件）
+                最近チェックしたメール（最大20件）
               </p>
             </div>
           </div>
@@ -75,9 +75,9 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
           {history.length === 0 ? (
             <div className="h-64 flex flex-col items-center justify-center text-center text-slate-400 text-xs">
               <Clock className="w-8 h-8 text-slate-300 mb-2" />
-              <p>解析履歴はまだありません</p>
+              <p>チェック履歴はまだありません</p>
               <p className="text-[11px] text-slate-400 mt-1">
-                メールを解析すると自動的にここに保存されます
+                メールチェック後、自動的にここに保存されます
               </p>
             </div>
           ) : (

@@ -57,22 +57,8 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
           <div className="absolute -inset-1 rounded-2xl bg-indigo-400/20 blur-md animate-pulse" />
         </div>
         <h3 className="mt-5 text-base font-semibold text-slate-800">
-          Gemini 3.8 Flash がメールを解析中...
+          Gemini がメールを解析中...
         </h3>
-        <p className="mt-1 text-xs text-slate-500 max-w-sm">
-          文頭の挨拶、宛名、署名、本文の目的・緊急度を統合的に読み解いています。
-        </p>
-
-        <div className="mt-6 flex flex-col gap-2 w-full max-w-xs text-xs text-slate-400">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-            <span>宛先の氏名・役職・会社名を抽出中</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-blue-500" />
-            <span>本文の主旨から最適な件名バリエーションを生成中</span>
-          </div>
-        </div>
       </div>
     );
   }
@@ -84,49 +70,11 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
           <Mail className="w-8 h-8" />
         </div>
         <h3 className="mt-4 text-base font-semibold text-slate-800">
-          抽出結果がここに表示されます
+          返信文案がここに表示されます
         </h3>
         <p className="mt-1.5 text-xs text-slate-500 max-w-md leading-relaxed">
-          左側の入力欄にビジネスメールや連絡文を貼り付けて「AI抽出」ボタンを押してください。宛先名、敬称、所属、最適な件名、要返信度を自動判別します。
+          左側の入力欄に本文を貼り付けて「メールチェック」ボタンを押してください。
         </p>
-
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md text-left">
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-2.5">
-            <div className="p-1 rounded-lg bg-indigo-100 text-indigo-700 shrink-0">
-              <User className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-slate-800">
-                宛名・所属の精密特定
-              </div>
-              <div className="text-[11px] text-slate-500">
-                社名・部署・敬称まで正しく分解抽出
-              </div>
-            </div>
-          </div>
-
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-2.5">
-            <div className="p-1 rounded-lg bg-blue-100 text-blue-700 shrink-0">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-slate-800">
-                3種の件名バリエーション
-              </div>
-              <div className="text-[11px] text-slate-500">
-                標準・簡潔・要返信から選択可能
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={onSelectSamplePrompt}
-          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200/60 transition-colors"
-        >
-          <span>サンプル文面で試してみる</span>
-        </button>
       </div>
     );
   }

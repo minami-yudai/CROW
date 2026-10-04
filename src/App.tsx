@@ -170,26 +170,6 @@ export default function App() {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Intro Sub-bar banner */}
-        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-2xl p-5 shadow-sm">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-              メール宛先名＆件名 自動抽出
-            </h1>
-            <p className="text-xs sm:text-sm text-indigo-200 mt-1">
-              メール文面を貼り付けるだけで、宛先の氏名・敬称・会社名と、最適な件名（標準・簡潔・要返信）をGeminiが瞬時に分析します。
-            </p>
-          </div>
-          <div className="flex items-center gap-2 self-start md:self-auto">
-            <button
-              type="button"
-              onClick={() => handleSelectSample(SAMPLE_EMAILS[0])}
-              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-colors backdrop-blur-sm"
-            >
-              今すぐ試す（サンプル1）
-            </button>
-          </div>
-        </div>
 
         {/* 2-Column Responsive Workspace */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -220,38 +200,8 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/80 bg-white py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
-          <div>
-            <span>MailExtract AI — Powered by Google Gemini 3.8 Flash</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span>安全なサーバーサイド暗号通信</span>
-            <span>•</span>
-            <button
-              type="button"
-              onClick={() => setIsHelpOpen(true)}
-              className="hover:text-indigo-600 transition-colors"
-            >
-              ヘルプ＆仕様
-            </button>
-          </div>
-        </div>
-      </footer>
-
       {/* Modals & Drawers */}
       <Toast message={toastMessage} type={toastType} />
-
-      <HistoryDrawer
-        isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
-        history={history}
-        onSelectHistoryItem={handleSelectHistoryItem}
-        onClearHistory={handleClearHistory}
-      />
-
-      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
 
       <SubjectRegeneratorModal
         isOpen={isRegenerateOpen}
