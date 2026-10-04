@@ -24,10 +24,12 @@ const ai = new GoogleGenAI({
 const extractionSchema = {
   type: Type.OBJECT,
   properties: {
-    type: Type.STRING,
-    description: "ここに返答文、または要約文を入力してください"
+    replyText: {
+      type: Type.STRING,
+      description: "ここに返答文、または要約文を入力してください（テンプレートの改行・段落構造をそのまま維持してください）",
+    },
   },
-  required: ["recipient", "subject", "metadata"],
+  required: ["replyText"],
 };
 
 app.post("/api/extract", async (req: Request, res: Response) => {
@@ -94,7 +96,16 @@ app.post("/api/extract", async (req: Request, res: Response) => {
       try {
         const response = await ai.models.generateContent({
           model,
-          contents: [],
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: emailText,
+                },
+              ],
+            },
+          ],
           config: {
             systemInstruction,
             responseMimeType: "application/json",

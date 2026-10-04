@@ -1,16 +1,14 @@
 import React from "react";
-import { Mail, Sparkles, History, HelpCircle, ShieldCheck } from "lucide-react";
+import { History } from "lucide-react";
 
 interface HeaderProps {
   historyCount: number;
   onOpenHistory: () => void;
-  onOpenHelp: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   historyCount,
   onOpenHistory,
-  onOpenHelp,
 }) => {
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80">

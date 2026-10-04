@@ -4,13 +4,9 @@ import { EmailInput } from "./components/EmailInput";
 import { ResultDisplay } from "./components/ResultDisplay";
 import { Toast } from "./components/Toast";
 import { HistoryDrawer } from "./components/HistoryDrawer";
-import { HelpModal } from "./components/HelpModal";
-import { SubjectRegeneratorModal } from "./components/SubjectRegeneratorModal";
-import { QuickReplyModal } from "./components/QuickReplyModal";
-import { SAMPLE_EMAILS, SampleEmail } from "./data/sampleEmails";
 import { ExtractionResult, ExtractionHistoryItem } from "./types";
 
-const HISTORY_STORAGE_KEY = "mailextract_history_v1";
+const HISTORY_STORAGE_KEY = "crow_history_v1";
 
 export default function App() {
   const [emailText, setEmailText] = useState<string>("");
@@ -20,9 +16,6 @@ export default function App() {
 
   // Modals & Drawers
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
-  const [isHelpOpen, setIsHelpOpen] = useState<boolean>(false);
-  const [isRegenerateOpen, setIsRegenerateOpen] = useState<boolean>(false);
-  const [isQuickReplyOpen, setIsQuickReplyOpen] = useState<boolean>(false);
 
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -35,7 +28,11 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          setHistory(parsed);
+          setHistory(
+            parsed.filter(
+              (item) => item && item.result && typeof item.result.replyText === "string"
+            )
+          );
         }
       }
     } catch (e) {
@@ -84,24 +81,18 @@ export default function App() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "抽出に失敗しました");
+        throw new Error(data.error || "処理に失敗しました");
       }
 
       setResult(data.data);
       saveToHistory(emailText, data.data);
-      showToast("宛先と件名の抽出が完了しました！");
+      showToast("メールチェックが完了しました！");
     } catch (err: any) {
       console.error(err);
       showToast(err.message || "エラーが発生しました", "error");
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSelectSample = (sample: SampleEmail) => {
-    setEmailText(sample.content);
-    // Smoothly focus or notify
-    showToast(`「${sample.title}」を読み込みました`);
   };
 
   const handlePasteClipboard = async () => {
@@ -135,28 +126,9 @@ export default function App() {
   };
 
   const handleClearHistory = () => {
-    if (window.confirm("抽出履歴をすべて消去しますか？")) {
-      setHistory([]);
-      localStorage.removeItem(HISTORY_STORAGE_KEY);
-      showToast("履歴をすべて削除しました");
-    }
-  };
-
-  const handleApplyCustomSubject = (subjectTitle: string) => {
-    if (result) {
-      setResult({
-        ...result,
-        subject: {
-          ...result.subject,
-          primary: subjectTitle,
-          variations: {
-            ...result.subject.variations,
-            standard: subjectTitle,
-          },
-        },
-      });
-      showToast("再生成した件名を反映しました");
-    }
+    setHistory([]);
+    localStorage.removeItem(HISTORY_STORAGE_KEY);
+    showToast("履歴をすべて削除しました");
   };
 
   return (
@@ -165,12 +137,10 @@ export default function App() {
       <Header
         historyCount={history.length}
         onOpenHistory={() => setIsHistoryOpen(true)}
-        onOpenHelp={() => setIsHelpOpen(true)}
       />
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
         {/* 2-Column Responsive Workspace */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Email Input (5 cols on lg) */}
@@ -180,7 +150,6 @@ export default function App() {
               onChangeText={setEmailText}
               onExtract={handleExtract}
               isLoading={isLoading}
-              onSelectSample={handleSelectSample}
               onPasteClipboard={handlePasteClipboard}
               onClear={handleClear}
             />
@@ -192,9 +161,6 @@ export default function App() {
               result={result}
               isLoading={isLoading}
               onCopy={handleCopy}
-              onOpenRegenerateSubject={() => setIsRegenerateOpen(true)}
-              onOpenQuickReply={() => setIsQuickReplyOpen(true)}
-              onSelectSamplePrompt={() => handleSelectSample(SAMPLE_EMAILS[0])}
             />
           </div>
         </div>
@@ -203,19 +169,12 @@ export default function App() {
       {/* Modals & Drawers */}
       <Toast message={toastMessage} type={toastType} />
 
-      <SubjectRegeneratorModal
-        isOpen={isRegenerateOpen}
-        onClose={() => setIsRegenerateOpen(false)}
-        emailText={emailText}
-        onSelectSubject={handleApplyCustomSubject}
-        onCopy={handleCopy}
-      />
-
-      <QuickReplyModal
-        isOpen={isQuickReplyOpen}
-        onClose={() => setIsQuickReplyOpen(false)}
-        result={result}
-        onCopy={handleCopy}
+      <HistoryDrawer
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        history={history}
+        onSelectHistoryItem={handleSelectHistoryItem}
+        onClearHistory={handleClearHistory}
       />
     </div>
   );

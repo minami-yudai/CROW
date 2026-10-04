@@ -1,5 +1,5 @@
 import React from "react";
-import { X, Clock, Trash2, ArrowRight, User, Mail } from "lucide-react";
+import { X, Clock, Trash2, ArrowRight, MessageSquare, FileText } from "lucide-react";
 import { ExtractionHistoryItem } from "../types";
 
 interface HistoryDrawerProps {
@@ -42,7 +42,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               <Clock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-slate-800">抽出履歴</h3>
+              <h3 className="text-sm font-bold text-slate-800">チェック履歴</h3>
               <p className="text-[11px] text-slate-500">
                 最近チェックしたメール（最大20件）
               </p>
@@ -92,24 +92,16 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               >
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
                   <span className="font-mono">{formatDate(item.timestamp)}</span>
-                  <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
-                    {item.result.metadata.category}
-                  </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                  <User className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                  <span className="truncate">
-                    {item.result.recipient.formattedAddressing ||
-                      item.result.recipient.fullName}
-                  </span>
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
+                  <FileText className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                  <span className="truncate">{item.emailText}</span>
                 </div>
 
                 <div className="flex items-center gap-1.5 text-xs text-slate-600">
-                  <Mail className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                  <span className="truncate font-medium">
-                    {item.result.subject.primary}
-                  </span>
+                  <MessageSquare className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <span className="truncate">{item.result.replyText}</span>
                 </div>
 
                 <div className="mt-1 flex items-center justify-end text-[11px] text-indigo-600 font-semibold group-hover:translate-x-0.5 transition-transform">

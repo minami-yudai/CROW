@@ -6,16 +6,13 @@ import {
   FileText,
   CornerDownLeft,
   Loader2,
-  ChevronDown,
 } from "lucide-react";
-import { SAMPLE_EMAILS, SampleEmail } from "../data/sampleEmails";
 
 interface EmailInputProps {
   emailText: string;
   onChangeText: (text: string) => void;
   onExtract: () => void;
   isLoading: boolean;
-  onSelectSample: (sample: SampleEmail) => void;
   onPasteClipboard: () => void;
   onClear: () => void;
 }
@@ -25,15 +22,9 @@ export const EmailInput: React.FC<EmailInputProps> = ({
   onChangeText,
   onExtract,
   isLoading,
-  onSelectSample,
   onPasteClipboard,
   onClear,
 }) => {
-  const [showSampleDropdown, setShowSampleDropdown] = React.useState(false);
-
-  const charCount = emailText.length;
-  const lineCount = emailText ? emailText.split("\n").length : 0;
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
